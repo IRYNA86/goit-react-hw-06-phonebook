@@ -1,7 +1,8 @@
-import { createStore } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import contactsSlice from "./contactsSlice";
 
-const reducer = (state = {}, action) => state;
-
-const store = createStore(reducer);
-
-export default store;
+export default configureStore ({
+    reducer: {
+        contacts: contactsSlice,
+    }
+})

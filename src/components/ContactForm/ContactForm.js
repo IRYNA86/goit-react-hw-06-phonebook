@@ -1,13 +1,17 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'components/store/contactsSlice'; 
 import shortid from 'shortid';
 import s from '../ContactForm/ContactForm.module.css';
 
-function ContactForm({ onSubmit }) {
+function ContactForm() {
   const inputNameId = shortid.generate();
   const inputNumberId = shortid.generate();
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleChange = event => {
     switch (event.target.name) {
@@ -21,32 +25,21 @@ function ContactForm({ onSubmit }) {
         break;
     }
   };
-
-  // const handleChange = event => {
-  //       const { name, value } = event.currentTarget;
-  // [name] - вычисляемые свойства объекта, паттерн
-  //   this.setState({ [name]: value });
-  // };
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit(name, number);
+    dispatch(
+      addContact({
+        id: shortid(),
+        name,
+        number,
+      }))
     reset();
   };
-
-  //   handleSubmit = event => {
-  //     event.preventDefault();
-  //     this.props.onSubmit(this.state);
-  //     this.reset();
-  //   };
 
   const reset = () => {
     setName('');
     setNumber('');
   };
-
-  // reset = () => {
-  //     this.setState({ name: '', number: '' });
-  //   };
 
   return (
     <form className={s.form} onSubmit={handleSubmit}>
